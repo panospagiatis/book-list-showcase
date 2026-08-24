@@ -1,75 +1,22 @@
-# React + TypeScript + Vite
+# Book List Showcase
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React + TypeScript component — a personal book list rendered as a responsive card grid. It's not meant to be a full app; it's a focused sample of how I structure and style a simple UI.
 
-Currently, two official plugins are available:
+**What it shows**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Typed content, separated from presentation** — book data lives in [`src/data/books.ts`](src/data/books.ts) as a typed array, imported into the component rather than hardcoded in JSX. Swapping or extending the data doesn't touch layout code.
+- **Small, single-purpose components** — `App` → `BookList` → `Book`, each doing one thing, instead of one file handling data, layout, and markup.
+- **Tailwind CSS v4, config-in-CSS** — theme tokens (custom fonts) are declared with `@theme` in [`App.css`](src/App.css) rather than a `tailwind.config.js`, keeping styling colocated with the styles it configures.
+- **Responsive by default** — a 1/2/3-column grid (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`) and fluid spacing, not a fixed desktop layout with breakpoints bolted on.
+- **Accessible images** — cover art gets descriptive `alt` text (`"Book Cover - {title} by {author}"`) instead of empty or filename-derived alt attributes.
 
-## React Compiler
+**Stack**: React 19, TypeScript, Vite, Tailwind CSS v4.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Running locally
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+`npm run build` type-checks with `tsc -b` before bundling; `npm run lint` runs ESLint (`typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`).
